@@ -5,6 +5,7 @@ from django.db import models
 class Video(models.Model):
     title= models.CharField(max_length=255)
     video_file= models.FileField(upload_to='videos/')
+    # srt_file= models.FileField(upload_to='subtitles/')
     uploaded_at= models.DateTimeField(auto_now_add=True)
     processed_flag= models.BooleanField(default=False)
 

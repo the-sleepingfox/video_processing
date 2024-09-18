@@ -3,10 +3,13 @@
 {% block content %}
 
 <h2>{{ video.title | capfirst }}</h2>
-<video controls>
+<video id="videoPlayer" width="600" controls>
     <source src="{{ video.video_file.url }}" type="video/mp4">
+    <track kind="subtitles" src="{{ subtitleUrl }}" srclang="en" label="English" default>
     Your browser does not support the video tag.
 </video>
+<a href="{{subtitleUrl}}">{{ subtitleUrl }}</a>
+<!-- <pre>{{ subtitles }}</pre> -->
 
 <h3>Subtitles</h3>
 <ul>
@@ -14,4 +17,5 @@
     <li>{{ subtitle.timestamp }} - {{ subtitle.content }}</li>
     {% endfor %}
 </ul>
+
 {% endblock %}

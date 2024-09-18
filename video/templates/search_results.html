@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Search Results</h2>
+<ul>
+    {% for subtitle in subtitles %}
+    <li>
+        <a href="{% url 'video_detail' subtitle.video.id %}#{{ subtitle.timestamp }}">{{ subtitle.text }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

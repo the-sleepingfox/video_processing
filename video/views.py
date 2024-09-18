@@ -36,14 +36,27 @@ def video_list(request):
 def video_detail(request, video_id):
     video = Video.objects.get(id=video_id)
     subtitles = Subtitle.objects.filter(video=video)
-    return render(request, 'video_detail.html', {'video': video, 'subtitles': subtitles})
+    context={
+        'video': video,
+        'subtitles': subtitles,
+        'subtitleUrl': f"media/sub_{video.title}_{video.id}.srt"
+    }
+    return render(request, 'video_detail.html', context)
+
+def search_subtitle(request):
+    query = request.GET.get('query', '')
+    if query:
+        subtitles = Subtitle.objects.filter(text__icontains=query)
+        return render(request, 'search_results.html', {'subtitles': subtitles})
+    return render(request, 'video_list.html')
 
 def delete_video(request, video_id):
     video= Video.objects.get(id=video_id)
     video_path= video.video_file.path
-    print(video_path)
+    # print(video_path)
     subtitle_path= f"media/sub_{video.title}_{video.id}.srt"
     os.remove(video_path)
-    os.remove(subtitle_path)
+    if subtitle_path:
+        os.remove(subtitle_path)
     video.delete()
     return redirect('video_list')
