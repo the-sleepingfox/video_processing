@@ -41,6 +41,9 @@ def video_detail(request, video_id):
 def delete_video(request, video_id):
     video= Video.objects.get(id=video_id)
     video_path= video.video_file.path
+    print(video_path)
+    subtitle_path= f"media/sub_{video.title}_{video.id}.srt"
     os.remove(video_path)
+    os.remove(subtitle_path)
     video.delete()
     return redirect('video_list')
