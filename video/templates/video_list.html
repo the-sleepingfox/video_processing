@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Uploaded Videos</h2>
+<ul>
+    {% for video in videos %}
+    <li>
+        <a href="{% url 'video_detail' video.id %}" >{{ video.title }}</a> - {{ video.uploaded_at }}
+        <a href="{% url 'delete_video' video.id %}" class=" btn btn-danger">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
