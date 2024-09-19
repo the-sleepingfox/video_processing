@@ -16,6 +16,24 @@ This project is a Django web application that allows users to upload videos, ext
 - **FFmpeg**
 - **PostgreSQL**
 
+## Project Setup (Withou Docker)
+
+Before setting up the project, ensure that the following tools are installed on your machine:
+
+1. **Python** (3.8+ recommended)
+2. **Django** (5.1.1)
+3. **FFmpeg** (for subtitle extraction)
+4. **PostgreSQL**
+
+Run the following command in terminal
+```bash
+pip install -r requirements.txt
+```
+After environment is setup completly
+```bash
+python manage.py runserver
+```
+
 ## Project Setup (Using Docker)
 
 - Plese ensure Docker is installed in your system.
