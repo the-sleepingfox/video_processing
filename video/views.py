@@ -8,8 +8,7 @@ from django.conf import settings
 # Create your views here.
 
 def home(request):
-    form= VideoForm()
-    return render(request, 'upload.html', {'form':form})
+    return render(request, 'home.html')
 
 def upload_video(request):
     if request.method == 'POST':
@@ -17,8 +16,16 @@ def upload_video(request):
         if form.is_valid():
             video= form.save()
             video_path= video.video_file.path
-            # audio_output_path= f"media/audio_{video.id}.mp3"
 
+            # audio_output_path= f"media/audio_{video.id}.mp3"
+            # print(video.title)
+            # base_name= os.path.basename(video_path)
+            # print(base_name)
+            # filename= os.path.splitext(base_name)[0]
+            # print(filename)
+        
+            # video.title= filename
+            
             subtitle_output_path= f"media/sub_{video.title}_{video.id}.srt"
             # subtitle_output_path= Subtitle.srt_file.path()
             process_subtitle(video.id, video_path, subtitle_output_path)
@@ -39,8 +46,7 @@ def video_detail(request, video_id):
     video = Video.objects.get(id=video_id)
     subtitles = Subtitle.objects.filter(video=video)
     timestamp= float(request.GET.get('timestamp', 0))
-    
-    subtitleUrl= f"/media/sub_{video.title}_{video.id}.srt"
+    subtitleUrl = f"{settings.MEDIA_URL}sub_{video.title}_{video.id}.srt"
     context={
         'video': video,
         'subtitles': subtitles,
@@ -55,14 +61,6 @@ def search_subtitle(request):
     if query:
         subtitles = Subtitle.objects.filter(content__icontains=query)  # Case-insensitive search
     return render(request, 'search_results.html', {'subtitles': subtitles, 'query': query})
-
-
-# def search_subtitle(request):
-#     query = request.GET.get('query', '')
-#     if query:
-#         subtitles = Subtitle.objects.filter(text__icontains=query)
-#         return render(request, 'search_results.html', {'subtitles': subtitles})
-#     return render(request, 'video_list.html')
 
 def delete_video(request, video_id):
     video= Video.objects.get(id=video_id)
