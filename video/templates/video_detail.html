@@ -5,17 +5,25 @@
 <h2>{{ video.title | capfirst }}</h2>
 <video id="videoPlayer" width="600" controls>
     <source src="{{ video.video_file.url }}" type="video/mp4">
-    <track kind="subtitles" src="{{ subtitleUrl }}" srclang="en" label="English" default>
+    <track src="{{ subtitleUrl }}" kind="subtitles" srclang="en" label="English" default>
     Your browser does not support the video tag.
 </video>
-<a href="{{subtitleUrl}}">{{ subtitleUrl }}</a>
-<!-- <pre>{{ subtitles }}</pre> -->
 
 <h3>Subtitles</h3>
 <ul>
     {% for subtitle in subtitles %}
-    <li>{{ subtitle.timestamp }} - {{ subtitle.content }}</li>
+    <li><a href="#" onclick="seekTo('{{ subtitle.timestamp.total_seconds }}')">
+        {{ subtitle.timestamp }}
+    </a> - {{ subtitle.content }}</li>
     {% endfor %}
 </ul>
+
+<script>
+    function seekTo(seconds) {
+        var video = document.getElementById('videoPlayer');
+        video.currentTime = seconds;
+        video.play();
+    }
+</script>
 
 {% endblock %}

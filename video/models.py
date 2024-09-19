@@ -5,7 +5,6 @@ from django.db import models
 class Video(models.Model):
     title= models.CharField(max_length=255)
     video_file= models.FileField(upload_to='videos/')
-    # srt_file= models.FileField(upload_to='subtitles/')
     uploaded_at= models.DateTimeField(auto_now_add=True)
     processed_flag= models.BooleanField(default=False)
 
@@ -13,6 +12,7 @@ class Subtitle(models.Model):
     video= models.ForeignKey(Video, on_delete= models.CASCADE)
     # language= models.CharField(max_length=10, default='en')
     content= models.TextField()
+    # srt_file= models.FileField(upload_to='subtitles/')
     timestamp= models.DurationField() #this timestamp stores the time value for pharase ocurrence time
 
     def __str__(self):

@@ -4,15 +4,19 @@
 <h2>Uploaded Videos</h2>
 <ul>
     {% for video in videos %}
-    <li style="list-style: none;">
-        <a href="{% url 'video_detail' video.id %}"><video class="border border-dark rounded" id="videoPlayer" width="200">
-            <source src="{{ video.video_file.url }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <div class="card" style="width: 18rem;">
+        <a href="{% url 'video_detail' video.id %}">
+            <video class="border border-dark rounded" id="videoPlayer" width="286" >
+                <source src="{{ video.video_file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </a>
-        <a href="{% url 'video_detail' video.id %}" >{{ video.title|capfirst }}</a> - {{ video.uploaded_at }}
-        <a href="{% url 'delete_video' video.id %}" class=" btn btn-danger">Delete</a>
-    </li>
+        <div class="card-body">
+          <h5 class="card-title"><a href="{% url 'video_detail' video.id %}" >{{ video.title|capfirst }}</a></h5>
+          <p class="card-text">{{ video.uploaded_at }}</p>
+          <a href="{% url 'delete_video' video.id %}" class=" btn btn-danger">Delete</a>
+        </div>
+      </div>
     {% endfor %}
 </ul>
 

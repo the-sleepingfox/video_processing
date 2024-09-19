@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from .forms import VideoForm
 from .models import Video, Subtitle
 from .utils import process_subtitle
-# from .utils import extract_audio_from_video, transcribe_audio_to_subtitles
 import os
+from django.conf import settings
+
 # Create your views here.
 
 def home(request):
@@ -19,6 +20,7 @@ def upload_video(request):
             # audio_output_path= f"media/audio_{video.id}.mp3"
 
             subtitle_output_path= f"media/sub_{video.title}_{video.id}.srt"
+            # subtitle_output_path= Subtitle.srt_file.path()
             process_subtitle(video.id, video_path, subtitle_output_path)
 
             # extract_audio_from_video(video_path, audio_output_path)
@@ -36,19 +38,29 @@ def video_list(request):
 def video_detail(request, video_id):
     video = Video.objects.get(id=video_id)
     subtitles = Subtitle.objects.filter(video=video)
+    
+    subtitleUrl= f"sub_{video.title}_{video.id}.srt"
     context={
         'video': video,
         'subtitles': subtitles,
-        'subtitleUrl': f"media/sub_{video.title}_{video.id}.srt"
+        'subtitleUrl': subtitleUrl,
     }
     return render(request, 'video_detail.html', context)
 
 def search_subtitle(request):
     query = request.GET.get('query', '')
+    subtitles = []
     if query:
-        subtitles = Subtitle.objects.filter(text__icontains=query)
-        return render(request, 'search_results.html', {'subtitles': subtitles})
-    return render(request, 'video_list.html')
+        subtitles = Subtitle.objects.filter(content__icontains=query)  # Case-insensitive search
+    return render(request, 'search_results.html', {'subtitles': subtitles, 'query': query})
+
+
+# def search_subtitle(request):
+#     query = request.GET.get('query', '')
+#     if query:
+#         subtitles = Subtitle.objects.filter(text__icontains=query)
+#         return render(request, 'search_results.html', {'subtitles': subtitles})
+#     return render(request, 'video_list.html')
 
 def delete_video(request, video_id):
     video= Video.objects.get(id=video_id)
@@ -56,7 +68,6 @@ def delete_video(request, video_id):
     # print(video_path)
     subtitle_path= f"media/sub_{video.title}_{video.id}.srt"
     os.remove(video_path)
-    if subtitle_path:
-        os.remove(subtitle_path)
+    os.remove(subtitle_path)
     video.delete()
     return redirect('video_list')
