@@ -25,17 +25,22 @@ This project is a Django web application that allows users to upload videos, ext
 
 ```bash
 git clone https://github.com/the-sleepingfox/video_processing.git
+```
+```bash
 cd video_processing
 ```
 
 Run the command in bash of root folder where .yml file is available.
 
 ```bash
-cmd docker-compose up -d --build 
+cmd docker-compose up -d --build
+``` 
 Navigate_to 127.0.0.1:8000
-
+```bash
 run_migrations docker-compose exec web python manage.py migrate
+```
 
+```bash
 create_superuser docker-compose exec web python manage.py createsuperuser
 ```
 
