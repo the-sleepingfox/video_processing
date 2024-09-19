@@ -38,12 +38,14 @@ def video_list(request):
 def video_detail(request, video_id):
     video = Video.objects.get(id=video_id)
     subtitles = Subtitle.objects.filter(video=video)
+    timestamp= float(request.GET.get('timestamp', 0))
     
-    subtitleUrl= f"sub_{video.title}_{video.id}.srt"
+    subtitleUrl= f"/media/sub_{video.title}_{video.id}.srt"
     context={
         'video': video,
         'subtitles': subtitles,
         'subtitleUrl': subtitleUrl,
+        'timestamp': timestamp,
     }
     return render(request, 'video_detail.html', context)
 

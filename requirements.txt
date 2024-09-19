@@ -2,3 +2,20 @@ Django==5.1.1
 psycopg2-binary==2.9.9
 pydub
 speechrecognition
+
+<h3>Subtitles</h3>
+<ul>
+    {% for subtitle in subtitles %}
+    <li><a href="#" onclick="seekTo('{{ subtitle.timestamp.total_seconds }}')">
+        {{ subtitle.timestamp }}
+    </a> - {{ subtitle.content }}</li>
+    {% endfor %}
+</ul>
+
+<script>
+    function seekTo(seconds) {
+        var video = document.getElementById('videoPlayer');
+        video.currentTime = seconds;
+        video.play();
+    }
+</script>

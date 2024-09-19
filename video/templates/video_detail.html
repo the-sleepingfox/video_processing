@@ -12,9 +12,13 @@
 <h3>Subtitles</h3>
 <ul>
     {% for subtitle in subtitles %}
-    <li><a href="#" onclick="seekTo('{{ subtitle.timestamp.total_seconds }}')">
-        {{ subtitle.timestamp }}
-    </a> - {{ subtitle.content }}</li>
+    <li>
+        <!-- timestamp and content -->
+        <a href="#" onclick="seekTo('{{ subtitle.timestamp.total_seconds }}')">
+            {{ subtitle.timestamp }}
+        </a>
+        : {{ subtitle.content }} : {{ subtitle.timestamp.total_seconds }}
+    </li>
     {% endfor %}
 </ul>
 
@@ -22,8 +26,26 @@
     function seekTo(seconds) {
         var video = document.getElementById('videoPlayer');
         video.currentTime = seconds;
+        console.log("time", video.currentTime);
         video.play();
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const video = document.getElementById("videoPlayer");
+        const timestamp = parseFloat("{{ timestamp }}");
+
+        console.log("Timestamp:", timestamp);
+
+
+        video.addEventListener('loadedmetadata', () => {
+            if (timestamp > 0) {
+                console.log("Setting currentTime to:", timestamp);
+                video.currentTime = timestamp;
+                video.play();
+            }
+        });
+    });
+
 </script>
 
 {% endblock %}

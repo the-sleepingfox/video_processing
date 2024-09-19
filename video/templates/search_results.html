@@ -8,31 +8,14 @@
             {% for subtitle in subtitles %}
                 <li>
                     <!-- Display timestamp and content -->
-                    <a href="#" onclick="seekTo('{{ subtitle.timestamp.total_seconds }}')">
+                    <a href="{% url 'video_detail' subtitle.video.id %}?timestamp={{ subtitle.timestamp.total_seconds }}">
                         {{ subtitle.timestamp }}
                     </a>
-                    : {{ subtitle.content }}
+                    : {{ subtitle.content|slice:":100" }} <!-- Show first 100 characters of the subtitle content -->
                 </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>No results found for "{{ query }}".</p>
     {% endif %}
-
-    <video id="videoPlayer" width="600" controls>
-        <source src="{{ subtitle.video.video_file.url }}" type="video/mp4">
-        <track src="{{ subtitleUrl }}" kind="subtitles" srclang="en" label="English" default>
-        Your browser does not support the video tag.
-    </video>
-    
-    
-    <!-- seeking to the timestamp -->
-    <script>
-        function seekTo(seconds) {
-            var video = document.getElementById('videoPlayer');
-            video.currentTime = seconds;
-            video.play();
-        }
-    </script>
-    
 {% endblock %}
