@@ -3,8 +3,16 @@
 {% block content %}
 <h1>Fatmug Video Processing</h1>
 <p>
-    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa voluptatem est, ipsa laudantium sit numquam assumenda impedit officiis expedita vel. Temporibus numquam ipsum placeat incidunt. Error soluta est, voluptate recusandae eligendi excepturi veniam deleniti corrupti dolore, consequuntur praesentium quasi neque vitae quia rerum dicta eaque. Qui incidunt voluptatem adipisci cupiditate?
+    This project is a Django web application that allows users to upload videos, extract subtitles using FFmpeg, search for specific phrases within the subtitles, and play the video from a specific timestamp with closed captions.
 </p>
+<h3>Features</h3>
+
+<p><strong>Video Upload</strong>: Users can upload videos.</p>
+<p><strong>Subtitle Extraction</strong>: Subtitles are automatically extracted using FFmpeg.</p>
+<p><strong>Search Subtitles</strong>: Users can search for specific phrases in the subtitles and jump to the corresponding timestamp in the video.</p>
+<p><strong>Closed Captions</strong>: Subtitles are shown as closed captions on the video.</p>
+<p><strong>Video Deletion</strong>: Users can delete videos and their corresponding subtitle files.</p>
+
 <a href="{% url 'upload_video' %}" class="btn d-flex align-item-center justify-content-center btn-primary">Click to Upload Video</a>
 {% endblock %}
 
