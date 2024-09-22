@@ -67,7 +67,9 @@ def delete_video(request, video_id):
     video_path= video.video_file.path
     # print(video_path)
     subtitle_path= f"media/sub_{video.title}_{video.id}.srt"
-    os.remove(video_path)
-    os.remove(subtitle_path)
+    if os.path.isabs(video_path):
+        os.remove(video_path)
+    if os.path.isabs(subtitle_path):
+        os.remove(subtitle_path)
     video.delete()
     return redirect('video_list')
