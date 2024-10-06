@@ -16,22 +16,9 @@ def upload_video(request):
         if form.is_valid():
             video= form.save()
             video_path= video.video_file.path
-
-            # audio_output_path= f"media/audio_{video.id}.mp3"
-            # print(video.title)
-            # base_name= os.path.basename(video_path)
-            # print(base_name)
-            # filename= os.path.splitext(base_name)[0]
-            # print(filename)
-        
-            # video.title= filename
             
             subtitle_output_path= f"media/sub_{video.title}_{video.id}.srt"
-            # subtitle_output_path= Subtitle.srt_file.path()
             process_subtitle(video.id, video_path, subtitle_output_path)
-
-            # extract_audio_from_video(video_path, audio_output_path)
-            # transcribe_audio_to_subtitles(audio_output_path, video.id)
 
             return redirect('video_list')
     else:
@@ -65,7 +52,6 @@ def search_subtitle(request):
 def delete_video(request, video_id):
     video= Video.objects.get(id=video_id)
     video_path= video.video_file.path
-    # print(video_path)
     subtitle_path= f"media/sub_{video.title}_{video.id}.srt"
     if os.path.isabs(video_path):
         os.remove(video_path)

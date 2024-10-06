@@ -7,11 +7,7 @@ from django.conf import settings
 
 def process_subtitle(video_id, video_path,subtitle_output_path):
     video= Video.objects.get(id= video_id)
-    
-    # subtitle_output_path = f"{os.path.splitext(video_path)[0]}.srt"
     command= ['ffmpeg', '-i', video_path, '-map', '0:s:0', subtitle_output_path]
-    # print(f"Running command: {command}")
-
 
     try:
         subprocess.run(command, check=True)
